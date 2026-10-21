@@ -176,11 +176,19 @@ fn iterates_over_input(cx: &LateContext<'_>, iter: &Expr<'_>) -> bool {
             // e.g. `for x in &input` / `for x in input`
             is_collection(cx, iter)
         }
-        ExprKind::Call(_, args) => {
-            // e.g. `for x in 0..input.len()`. `any` short-circuits, so the
-            // usual single-argument range costs one type lookup, not two.
-            args.iter().any(|arg| is_input_driven(cx, arg))
+        // A range literal `a..b` is lowered as a `Struct` expression for
+        // `core::ops::range::Range` with `start`/`end` fields — it is *not* a
+        // `Call`, which is why this arm looks for `Struct` and inspects each
+        // field expression ([#788]: `0..input.len()` and `0..count` previously
+        // never reached the bound checks at all).
+        ExprKind::Struct(_, fields, _) => {
+            fields.iter().any(|field| is_caller_bound(cx, field.expr))
         }
+        // `for x in (0..a, 0..b)`-style tuples are not reachable today but
+        // the same field-walk argument covers them if HIR shape changes.
+        ExprKind::Tup(parts) => parts.iter().any(|part| is_caller_bound(cx, part)),
+        // `a..=b` lowers to a `RangeInclusive::new(a, b)` call.
+        ExprKind::Call(_, args) => args.iter().any(|arg| is_caller_bound(cx, arg)),
         _ => false,
     }
 }

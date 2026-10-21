@@ -53,6 +53,15 @@ pub mod soroban_sdk {
         }
     }
 
+    /// Stand-in for `soroban_sdk::Set` so the collection-length bound
+    /// fixture can exercise the `.len()` arm without depending on the real
+    /// SDK: the lint only needs a type whose name matches a collection
+    /// fragment and whose `len(&self) -> usize` method resolves.
+    pub struct Set;
+    impl Set {
+        pub fn len(&self) -> usize { 0 }
+    }
+
     // Models `soroban_sdk::Map`: the lint's `is_collection` test sees the
     // receiver of `keys()`/`values()`, so only the name and projections matter.
     pub struct Map<K, V>(core::marker::PhantomData<(K, V)>);

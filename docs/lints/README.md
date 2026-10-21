@@ -22,8 +22,6 @@ See the [Cost Rationale](../cost_rationale.md) page for a full explanation of So
 | [`loop_invariant_storage_access`](loop_invariant_storage_access.md) | `warn` | storage operation inside a loop whose operands are provably loop-invariant |
 | [`storage_key_construction_in_loop`](storage_key_construction_in_loop.md) | `warn` | storage key constructed inside a loop body where it could be hoisted |
 | [`extend_ttl_in_loop`](extend_ttl_in_loop.md) | `warn` | extend_ttl called inside a loop |
-| [`symbol_key_boundary`](symbol_key_boundary.md) | `warn` | symbol key boundary |
-| [`symbol_key_enum_storage`](symbol_key_enum_storage.md) | `warn` | symbol key enum storage |
 | [`unwrap_on_storage_get`](unwrap_on_storage_get.md) | `warn` | unwrap or expect directly on a storage read — panics on a missing or expired key |
 | [`duplicate_storage_key_construction`](duplicate_storage_key_construction.md) | `warn` | constructs the same storage key expression in multiple function bodies |
 | [`option_wrapping_in_storage`](option_wrapping_in_storage.md) | `warn` | stores an Option<T> in storage where the key already models absence |
@@ -41,8 +39,6 @@ See the [Cost Rationale](../cost_rationale.md) page for a full explanation of So
 | [`linear_scan_in_loop`](linear_scan_in_loop.md) | `warn` | linear scan on collection inside a loop — O(n²) cost |
 | [`symbol_new_for_short_literal`](symbol_new_for_short_literal.md) | `warn` | Symbol::new used with a short literal that could use symbol_short! macro |
 | [`unbounded_recursion`](unbounded_recursion.md) | `warn` | unbounded recursion driven by caller-supplied input |
-| [`u128_where_u64_suffices`](u128_where_u64_suffices.md) | `warn` | uses 128-bit arithmetic where 64 bits would suffice, which is extremely expensive on wasm32 |
-| [`float_arithmetic_in_contract`](float_arithmetic_in_contract.md) | `warn` | performs floating-point arithmetic in contract code where fixed-point integer arithmetic is preferred |
 | [`ledger_context_read_in_loop`](ledger_context_read_in_loop.md) | `warn` | reads a ledger context value inside a loop when it cannot change during the invocation |
 | [`redundant_require_auth`](redundant_require_auth.md) | `warn` | require_auth called more than once on the same address in a single function body |
 
@@ -64,8 +60,6 @@ See the [Cost Rationale](../cost_rationale.md) page for a full explanation of So
 | --- | --- | --- |
 | [`redundant_env_clone`](redundant_env_clone.md) | `warn` | redundant clone on Env object |
 | [`unnecessary_host_function_call`](unnecessary_host_function_call.md) | `warn` | unnecessary host function call inside loop |
-| [`unnecessary_host_function_call_legacy`](unnecessary_host_function_call_legacy.md) | `warn` | legacy unnecessary host function call |
-| [`symbol_key_event_topics`](symbol_key_event_topics.md) | `warn` | symbol key event topics |
 
 ## Security
 
